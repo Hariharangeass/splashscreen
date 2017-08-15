@@ -2,13 +2,17 @@ package com.example.rahul.splashscreen;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,14 +24,17 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
 
-    ImageView imageView1;
+    ImageView imageView1,imageView;
     ImageView imageView2;
     ImageView imageView3;
     ImageView imageView4;
     ImageView imageView5;
     Random random;
+    ZoomableRelativeLayout mainLayout;
+    ScaleGestureDetector scaleGestureDetector;
     int a;
     Button button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textView = (TextView) findViewById(R.id.textView2);
 
+        mainLayout = (ZoomableRelativeLayout) findViewById(R.id.mainLayout);
+        scaleGestureDetector = new ScaleGestureDetector(this, new onPinchListener(mainLayout));
+
+
+
+        imageView = (ImageView) findViewById(R.id.IMG);
 
         random = new Random();
          a = random.nextInt(6)+1;
@@ -74,8 +87,20 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+       mainLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // TODO Auto-generated method stub
+                scaleGestureDetector.onTouchEvent(event);
+                return true;
+            }
+        });
 
     }
+
+
+
 
 
     public void counter(int a)
